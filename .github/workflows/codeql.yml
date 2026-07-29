@@ -27,7 +27,7 @@ jobs:
         with:
           languages: java
 
-      - name: Build project
+      - name: integration-tests
         run: mvn clean verify
 
       - name: Perform CodeQL Analysis
