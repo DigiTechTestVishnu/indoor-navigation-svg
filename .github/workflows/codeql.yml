@@ -28,7 +28,7 @@ jobs:
           languages: java
 
       - name: Build project
-        run: mvn clean package -DskipTests
+        run: mvn clean verify
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
