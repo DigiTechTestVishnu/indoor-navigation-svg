@@ -16,6 +16,7 @@ public class Test implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+		String a
 		HipsterMutableGraph<String, Integer> graph1 = new HashBasedHipsterGraph<String, Integer>();
 		graph1.add("A");
 		graph1.add("B");
