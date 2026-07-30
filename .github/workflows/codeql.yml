@@ -45,13 +45,16 @@ jobs:
 
   block-pr-on-failure:
     name: block-pr-on-failure
-    if: ${{ failure() && github.event_name == 'pull_request' }}
+    if: ${{ always() && github.event_name == 'pull_request' }}
     needs: [integration-tests, sast-scan]
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      pull-requests: write
 
     steps:
-      - name: Leave pull request blocked on failed checks
-        run: echo "Pull request remains open but is blocked by failed checks."
+      - name: Block merge when required checks fail
+        run: |
+          if [ "${{ needs.integration-tests.result }}" != "success" ] || [ "${{ needs.sast-scan.result }}" != "success" ]; then
+            echo "Required checks failed; pull request is blocked from merging."
+            exit 1
+          fi
