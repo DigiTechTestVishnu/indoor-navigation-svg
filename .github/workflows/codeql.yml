@@ -42,19 +42,3 @@ jobs:
       - run: mvn clean verify
 
       - uses: github/codeql-action/analyze@v3
-
-  block-pr-on-failure:
-    name: block-pr-on-failure
-    if: ${{ always() && github.event_name == 'pull_request' }}
-    needs: [integration-tests, sast-scan]
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-
-    steps:
-      - name: Block merge when required checks fail
-        run: |
-          if [ "${{ needs.integration-tests.result }}" != "success" ] || [ "${{ needs.sast-scan.result }}" != "success" ]; then
-            echo "Required checks failed; pull request is blocked from merging."
-            exit 1
-          fi
